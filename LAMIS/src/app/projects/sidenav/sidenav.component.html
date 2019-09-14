@@ -1,0 +1,44 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" class="sidenav-content" [(opened)]="opened">
+    <mat-action-list>
+        <h3 mat-subheader>Subjects</h3>
+        <button mat-list-item (click)="onSubjectClickAll()">
+          <mat-icon mat-list-icon>menu_open</mat-icon>
+          <h4 mat-line>Select All</h4>
+        </button>
+        <button mat-list-item *ngFor="let subject of subjectList$ | async; index as i;" (click)="onSubjectClick(subject, i)">
+          <mat-icon mat-list-icon *ngIf="subjectDictionary[subject]">folder</mat-icon>
+          <mat-icon mat-list-icon *ngIf="!subjectDictionary[subject]">folder_open</mat-icon>
+          <h4 mat-line>{{ subject }}</h4>
+        </button>
+        <br>
+        <mat-divider></mat-divider>
+        <br>
+      </mat-action-list>
+    <mat-list>
+      <h3 mat-subheader>Notes</h3>
+      <mat-list-item *ngFor="let note of notes">
+        <mat-icon mat-list-icon>note</mat-icon>
+        <h4 mat-line>{{note.name}}</h4>
+        <p mat-line> {{note.updated | date}} </p>
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenav-main">
+    <p>
+      <button mat-raised-button (click)="sidenav.toggle()"><mat-icon mat-list-icon>list</mat-icon></button>
+      <mat-button-toggle-group multiple name="fontStyle" aria-label="Font Style" [style.margin-left]="'16px'">
+        <mat-button-toggle (click)="onVariableClickAll()" [checked]="variableSelectAll">All</mat-button-toggle>
+        <mat-button-toggle *ngFor="let variable of variableList$ | async; index as i" (click)="onVariableClick(variable)" [checked]="variableDictionary[variable]">{{ i }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </p>
+    <mat-divider></mat-divider>
+    <div *ngFor="let subjectImages of pathArray$ | async" class="cdk-virtual-scroll-data-source-example">
+      <cdk-virtual-scroll-viewport orientation="horizontal" itemSize="300" class="example-viewport">
+        <div *cdkVirtualFor="let imgPath of subjectImages">
+          <img [src]="imgPath" class="example-item" onerror="this.onerror=null; this.src='assets/nodata1.PNG';">
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

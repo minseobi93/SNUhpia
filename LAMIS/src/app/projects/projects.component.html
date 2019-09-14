@@ -1,0 +1,11 @@
+<div *ngIf="projectName$ | async; else elseBlock">
+  <mat-toolbar>
+    <span [style.padding-left]="'20px'"><h1>PROJECT: &nbsp;<span [style.font-weight]="'1000'" [style.font-weight]="'700'">{{ projectName$ | async }}</span></h1></span>
+  </mat-toolbar>
+  <sidenav></sidenav>
+</div>
+<ng-template #elseBlock>
+  <mat-toolbar>
+    <span [style.padding-left]="'20px'"><h1>PLEASE SELECT THE PROJECT FROM NAV</h1></span>
+  </mat-toolbar>
+</ng-template>

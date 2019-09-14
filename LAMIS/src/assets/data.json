@@ -1,0 +1,119 @@
+{
+  "project" : [
+    {
+      "projectName": "CBNCT",
+      "subjectList": ["10027", "10109", "10173", "10307"],
+      "variableList": ["DispVecSkip100_dsStar_max5min2_v0d_front",
+        "DispVecSkip100_dsStar_max5min2_v0d_right",
+        "DispVecSkip100_dsStar_max5min2_v0e_bottom",
+        "fSAD_v0e_bottom",
+        "fSAD_v0e_front",
+        "fSAD_v0e_right",
+        "HU0_v0c_right",
+        "HU1_v0b_right",
+        "LAAex_v0b_front",
+        "LAAex_v0b_right",
+        "LAAin_v0b_right",
+        "RRAVC_max1.5_v0b_front",
+        "RRAVC_max1.5_v0b_right",
+        "TissFrac0_max0.3min0.0473_v0b_right",
+        "TissFrac1_max0.3min0.1365_v0b_right"],
+      "pathName": "assets/data/CBNCT/subjectName/png_postIR/subjectName_postIR_whole1D_variableName.png",
+      "csv": {
+        "path": "../../data/CBNCT/SUBJNUM/DIRECTORY/SUBJNUM_FILE",
+        "directory": ["data_csv_Clin", "data_csv_Image", "data_csv_postIR"],
+        "fileList": [
+          ["Time0_DemographClinical.csv"],
+          ["EX_airways.csv",
+          "EX_vida-airmeas.csv",
+          "EX_vida-heterogeneity.csv",
+          "EX_vida-histo.csv",
+          "EX_vida-lac.csv",
+          "EX_vida-Pi10.csv",
+          "EX_vida-sublobe.csv",
+          "EX_VolandDens.csv",
+          "IN_airways.csv",
+          "IN_vida-airmeas.csv",
+          "IN_vida-heterogeneity.csv",
+          "IN_vida-histo.csv",
+          "IN_vida-lac.csv",
+          "IN_vida-Pi10.csv",
+          "IN_vida-sublobe.csv",
+          "IN_VolandDens.csv"],
+          ["Time0_ImgVar.csv"]
+        ]
+      }
+    },
+    {
+      "projectName": "PM25",
+      "subjectList": ["PMSN12002", "PMSN12003", "PMSN12004", "PMSN12010", "PMSN12011", "PMSN12012", "PMSN12020", "PMSN12022"],
+      "variableList": ["DispVecSkip100_dsStar_max5min2_v0d_front",
+        "DispVecSkip100_dsStar_max5min2_v0d_right",
+        "DispVecSkip100_dsStar_max5min2_v0e_bottom",
+        "HU0_v0c_right",
+        "HU1_v0b_right",
+        "LAAex_v0b_front",
+        "LAAex_v0b_right",
+        "LAAin_v0b_front",
+        "LAAin_v0b_right",
+        "RRAVC_max1.5_v0b_front",
+        "RRAVC_max1.5_v0b_right",
+        "RRAVC_max1.5_v0e_back",
+        "RRAVC_max1.5_v0e_bottom",
+        "RRAVC_max1.5_v0e_left",
+        "TissFrac0_max0.3min0.0473_v0b_right",
+        "TissFrac1_max0.3min0.1365_v0b_right"],
+      "pathName": "assets/data/CBNCT/subjectName/png_postIR/subjectName_postIR_whole1D_variableName.png",
+      "subject": {
+        "PMSN12002": {
+          "pathName": "../../data/png/PM25/png_AvgExposure/PMSN12002_postIR_whole1D_TEMPLATE.png"
+        },
+        "PMSN12003": {
+          "pathName": "../../data/png/PM25/png_HighExposure/VexVin_ge80/PMSN12003_postIR_whole1D_TEMPLATE.png"
+        },
+        "PMSN12004": {
+          "pathName": "../../data/png/PM25/png_AvgExposure/VexVin_ge80/PMSN12004_postIR_whole1D_TEMPLATE.png"
+        },
+        "PMSN12010": {
+          "pathName": "../../data/png/PM25/png_AvgExposure/PMSN12010_postIR_whole1D_TEMPLATE.png"
+        },
+        "PMSN12011": {
+          "pathName": "../../data/png/PM25/png_HighExposure/PMSN12011_postIR_whole1D_TEMPLATE.png"
+        },
+        "PMSN12012": {
+          "pathName": "../../data/png/PM25/png_HighExposure/PMSN12012_postIR_whole1D_TEMPLATE.png"
+        },
+        "PMSN12020": {
+          "pathName": "../../data/png/PM25/png_HighExposure/PMSN12020_postIR_whole1D_TEMPLATE.png"
+        },
+        "PMSN12022": {
+          "pathName": "../../data/png/PM25/png_AvgExposure/VexVin_ge80/PMSN12022_postIR_whole1D_TEMPLATE.png"
+        }
+      },
+      "csv": {
+        "path": "../../data/CBNCT/SUBJNUM/DIRECTORY/SUBJNUM_FILE",
+        "directory": ["data_csv_Clin", "data_csv_Image", "data_csv_postIR"],
+        "fileList": [
+          ["Time0_DemographClinical.csv"],
+          ["EX_airways.csv",
+          "EX_vida-airmeas.csv",
+          "EX_vida-heterogeneity.csv",
+          "EX_vida-histo.csv",
+          "EX_vida-lac.csv",
+          "EX_vida-Pi10.csv",
+          "EX_vida-sublobe.csv",
+          "EX_VolandDens.csv",
+          "IN_airways.csv",
+          "IN_vida-airmeas.csv",
+          "IN_vida-heterogeneity.csv",
+          "IN_vida-histo.csv",
+          "IN_vida-lac.csv",
+          "IN_vida-Pi10.csv",
+          "IN_vida-sublobe.csv",
+          "IN_VolandDens.csv"],
+          ["Time0_ImgVar.csv"]
+        ]
+      }
+    }
+  ]
+}

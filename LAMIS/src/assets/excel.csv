@@ -1,0 +1,2 @@
+Proj,Subj,Age,Sex01,Height,Weight,BMI,blood_WBC_count,blood_neut_pctg,blood_lymph_pctg,blood_mono_pctg,blood_eos_pctg,blood_baso_pctg,severity,Racef,Race,Group,FEV1ppPreBD,FVCppPreBD,FEV1FVCpreBD,maxFEV1ppPreBD,maxFVCppPreBD,maxFEV1FVCpreBD
+CBNCT,10027,33.12054795,1,157.5,82.4,33.21743512,9400,53,40,5,1,0,0,3,6,Asthma,0.89072558,0.826855499,0.903780069,0.961848155,0.855269777,0.943521595
