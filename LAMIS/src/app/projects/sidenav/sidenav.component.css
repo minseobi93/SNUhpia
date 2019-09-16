@@ -19,6 +19,7 @@
 .sidenav-main {
   padding-left: 16px;
   padding-right: 16px;
+  overflow-y: hidden;
 }
 
 .sidenav-button {
@@ -38,18 +39,58 @@
   color: rgba(0, 0, 0, 0.74);
 }
 
-.cdk-virtual-scroll-data-source-example .example-viewport {
-  height: 300px;
-  width: auto;
-  border: 1px solid black;
+.img-container {
+  width: 90%;
+  border: 1px solid #e3e6f0;
+  border-radius: 4px;
+  align-items: center;
+  vertical-align: middle;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-top: 1em;
+  margin-right: 2em;
 }
 
-.cdk-virtual-scroll-content-wrapper {
-  overflow-x:scroll;
+.img-container:hover {
+  box-shadow: 0 20px 15px -8px gray;
+}
+
+.wrapper {
+  width: 100%;
+  height: 98%;
   white-space: nowrap;
 }
 
-.example-item {
-  height: 300px;
-  width: 300px;
+.container {
+  width: 100%;
+  height: 90%;
+}
+
+.container .column {
+  display: inline-block;
+  width: 25%;
+  height: 100%;
+}
+
+figure {
+  display: table;
+  background-color: #fff;
+  font-size: 0.7vw;
+}
+
+img {
+  padding-top: 2em;
+  width: 100%;
+}
+
+figcaption {
+  display: table-caption;
+  text-align: center;
+}​
+
+::ng-deep .ng-scrollbar.virtual-scroll {
+    --scrollbar-size: 15px;
+    --scrollbar-thumb-color: gray;
+    --scrollbar-track-color: rgba(0, 0, 0, 0.05);
+    --scrollbar-border-radius: 10px;
 }

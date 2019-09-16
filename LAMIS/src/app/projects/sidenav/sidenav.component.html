@@ -25,20 +25,36 @@
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-main">
-    <p>
+    <p class="absolute">
       <button mat-raised-button (click)="sidenav.toggle()"><mat-icon mat-list-icon>list</mat-icon></button>
       <mat-button-toggle-group multiple name="fontStyle" aria-label="Font Style" [style.margin-left]="'16px'">
-        <mat-button-toggle (click)="onVariableClickAll()" [checked]="variableSelectAll">All</mat-button-toggle>
+        <mat-button-toggle (click)="onVariableClickAll()" [checked]="variableSelectAll$ | async">All</mat-button-toggle>
         <mat-button-toggle *ngFor="let variable of variableList$ | async; index as i" (click)="onVariableClick(variable)" [checked]="variableDictionary[variable]">{{ i }}</mat-button-toggle>
       </mat-button-toggle-group>
     </p>
     <mat-divider></mat-divider>
-    <div *ngFor="let subjectImages of pathArray$ | async" class="cdk-virtual-scroll-data-source-example">
-      <cdk-virtual-scroll-viewport orientation="horizontal" itemSize="300" class="example-viewport">
-        <div *cdkVirtualFor="let imgPath of subjectImages">
-          <img [src]="imgPath" class="example-item" onerror="this.onerror=null; this.src='assets/nodata1.PNG';">
+    <div class="wrapper">
+      <div class="container">
+        <div  *ngFor="let subjectImages of pathArray$ | async; index as i" class="column">
+          <ng-scrollbar class="virtual-scroll" thumbClass="white-scrollbars" visibility="hover">
+            <cdk-virtual-scroll-viewport scrollViewport itemSize="14">
+              <div cdkScrollable *cdkVirtualFor="let imgPath of subjectImages; index as j" class="img-container" id="left">
+                <figure>
+                  <figcaption [style.caption-side]="'top'" [style.font-size]="'1vw'">
+                    {{ this.data.getSubjectList()[i] }}
+                  </figcaption>
+                  <img [src]="imgPath" onerror="this.onerror=null; this.src='assets/nodata1.PNG';">
+                  <figcaption [style.caption-side]="'bottom'">
+                    {{ this.data.getVariableList()[j] }}
+                  </figcaption>
+                </figure>
+                
+              </div>
+            </cdk-virtual-scroll-viewport>
+          </ng-scrollbar>
         </div>
-      </cdk-virtual-scroll-viewport>
+      </div>
     </div>
+    
   </mat-sidenav-content>
 </mat-sidenav-container>
