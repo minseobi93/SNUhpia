@@ -25,14 +25,14 @@
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-main">
-    <p class="absolute">
+    <div class="nav-content-header">
       <button mat-raised-button (click)="sidenav.toggle()"><mat-icon mat-list-icon>list</mat-icon></button>
       <mat-button-toggle-group multiple name="fontStyle" aria-label="Font Style" [style.margin-left]="'16px'">
         <mat-button-toggle (click)="onVariableClickAll()" [checked]="variableSelectAll$ | async">All</mat-button-toggle>
         <mat-button-toggle *ngFor="let variable of variableList$ | async; index as i" (click)="onVariableClick(variable)" [checked]="variableDictionary[variable]">{{ i }}</mat-button-toggle>
       </mat-button-toggle-group>
-    </p>
-    <mat-divider></mat-divider>
+      <mat-divider></mat-divider>
+    </div>
     <div class="wrapper">
       <div class="container">
         <div  *ngFor="let subjectImages of pathArray$ | async; index as i" class="column">
@@ -60,6 +60,8 @@
               <p>I'm visible because I am open</p>
             </mat-expansion-panel>
           </mat-accordion>
+
+
           <ng-scrollbar style="width:100%; 
                               --scrollbar-size: 8px;
                               --scrollbar-thumb-color: gray;
@@ -83,6 +85,5 @@
         </div>
       </div>
     </div>
-    
   </mat-sidenav-content>
 </mat-sidenav-container>
