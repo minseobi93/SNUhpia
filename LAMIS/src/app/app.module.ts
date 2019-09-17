@@ -26,6 +26,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
@@ -52,7 +53,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     MatListModule,
     MatButtonToggleModule,
     NgScrollbarModule,
-    ScrollingModule
+    ScrollingModule,
+    MatExpansionModule
   ],
   providers: [
     AuthService,
