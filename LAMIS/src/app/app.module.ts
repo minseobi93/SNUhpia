@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -16,7 +17,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { HomeComponent } from './home/home.component';
-import { SidenavComponent } from './projects/sidenav/sidenav.component';
+import { SidenavComponent, DialogComponent } from './projects/sidenav/sidenav.component';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,6 +28,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
@@ -35,13 +38,15 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     NavbarComponent,
     ProjectsComponent,
     HomeComponent,
-    SidenavComponent
+    SidenavComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -54,12 +59,17 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     MatButtonToggleModule,
     NgScrollbarModule,
     ScrollingModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule,
+    MatCheckboxModule
+  ],
+  entryComponents: [
+    DialogComponent
   ],
   providers: [
     AuthService,
-    DataService
+    DataService,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

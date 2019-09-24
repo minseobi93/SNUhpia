@@ -20,8 +20,8 @@
         "TissFrac1_max0.3min0.1365_v0b_right"],
       "pathName": "assets/data/CBNCT/subjectName/png_postIR/subjectName_postIR_whole1D_variableName.png",
       "csv": {
-        "path": "../../data/CBNCT/SUBJNUM/DIRECTORY/SUBJNUM_FILE",
-        "directory": ["data_csv_Clin", "data_csv_Image", "data_csv_postIR"],
+        "pathName": "assets/data/CBNCT/subjectName/directoryName/subjectName_fileName",
+        "folderList": ["data_csv_Clin", "data_csv_Image", "data_csv_postIR"],
         "fileList": [
           ["Time0_DemographClinical.csv"],
           ["EX_airways.csv",

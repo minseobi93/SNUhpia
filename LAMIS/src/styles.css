@@ -9,7 +9,7 @@ body {
 
 .mat-toolbar {
   font-weight: 300;
-  background: #2d2e35ad !important;
+  background: #343544ad !important;
   color: white;
   box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 
               0 6px 10px 0 rgba(0,0,0,.14), 
@@ -31,4 +31,8 @@ body {
 
 .mat-menu-item {
   color: #424242;
+}
+
+.mat-checkbox-inner-container {
+  margin-right: 1em !important;
 }
