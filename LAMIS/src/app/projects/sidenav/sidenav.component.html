@@ -50,13 +50,14 @@
                     <button mat-button color="primary" (click)="openDialog()" [style.float]="'right'" [style.line-height]="'0px'">Load More Info</button>
                     <br>
                     <div class="csv-container" *ngFor="let entry of activeCSVEntry$ | async">
-                      <div class="csv-column" [style.text-align]="'right'" [style.padding-right]="'0.5em'">{{ entry }}</div>
+                      <div class="csv-column" [style.text-align]="'right'" [style.padding-right]="'0.5em'" [style.font-weight]="'550'">{{ entry }}</div>
                       <div class="csv-column" [style.padding-left]="'0.5em'">{{ csvDataMap[subjectList[i]][entry] }}</div>
                     </div>
                   </mat-expansion-panel>
                 </mat-accordion>
               </ng-container>
               <ng-scrollbar style="width:100%;
+                                   height:90%;
                                   margin-top: 1em;
                                   --scrollbar-size: 6px;
                                   --scrollbar-thumb-color: gray;
@@ -86,6 +87,24 @@
           <ng-container *ngIf="subjectMap[subject]">
             <ng-container *ngIf="pathArray$ | async as paths">
               <div class="single-wrapper">
+                <mat-accordion>
+                  <mat-expansion-panel [style.margin-bottom]="'1em'" [style.width]="'33%'">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        {{ subject }}
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Load CSV Data
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <button mat-button color="primary" (click)="openDialog()" [style.float]="'right'" [style.line-height]="'0px'">Load More Info</button>
+                    <br>
+                    <div class="csv-container" *ngFor="let entry of activeCSVEntry$ | async">
+                      <div class="csv-column" [style.text-align]="'right'" [style.padding-right]="'0.5em'" [style.font-weight]="'550'">{{ entry }}</div>
+                      <div class="csv-column" [style.padding-left]="'0.5em'">{{ csvDataMap[subject][entry] }}</div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
                 <ng-scrollbar 
                   style="height: 33vw;
                   min-height: 300px;
