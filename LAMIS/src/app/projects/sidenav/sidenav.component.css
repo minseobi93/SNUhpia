@@ -106,10 +106,6 @@ figcaption {
   box-shadow: 0 5px 2px -2px gray;
 }
 
-.mat-expansion-panel {
-  max-height: 400px;
-}
-
 .mat-expansion-panel-header {
   background-color: white;
 }

@@ -45,14 +45,14 @@
                         {{ subjectList[i] }} 
                       </mat-panel-title>
                       <mat-panel-description>
-                        Load CSV Data
+                        Load Data
                       </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <button mat-button color="primary" (click)="openDialog()" [style.float]="'right'" [style.line-height]="'0px'">Load More Info</button>
+                    <button mat-button color="primary" (click)="openDialog()" [style.float]="'right'" [style.line-height]="'0px'">Load More Data</button>
                     <br>
                     <div class="csv-container" *ngFor="let entry of activeCSVEntry$ | async">
-                      <div class="csv-column" [style.text-align]="'right'" [style.padding-right]="'0.5vw'" [style.font-weight]="'550'">{{ entry }}</div>
-                      <div class="csv-column" [style.padding-left]="'0.5vw'">{{ csvDataMap[subjectList[i]][entry] }}</div>
+                      <div class="csv-column" [style.text-align]="'right'" [style.padding-right.vw]="sliderValue / 200" [style.font-weight]="'550'" [style.font-size.vw]="0.7">{{ entry }}</div>
+                      <div class="csv-column" [style.padding-left.vw]="sliderValue / 200" [style.font-size.vw]="0.7">{{ csvDataMap[subjectList[i]][entry] }}</div>
                     </div>
                   </mat-expansion-panel>
                 </mat-accordion>
