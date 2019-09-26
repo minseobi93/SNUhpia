@@ -12,18 +12,18 @@
   background: #f8f9fa;
   color:rgba(0, 0, 0, 0.74);
   border-right-color: #e0e0e0;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .sidenav-main {
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
   overflow-y: hidden;
 }
 
 .sidenav-button {
-  margin: 16px;
+  margin: 1em;
 }
 
 .mat-list-item {
@@ -43,14 +43,12 @@
 
 .img-container {
   width: 95%;
+  height: 100%;
   max-width: 600px;
   border: 1px solid #e3e6f0;
   border-radius: 4px;
   align-items: center;
   vertical-align: middle;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  margin-bottom: 1em;
 }
 
 .img-container:hover {
@@ -77,12 +75,12 @@
 figure {
   display: table;
   background-color: #fff;
-  font-size: 0.7vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 img {
-  padding-top: 2em;
-  width: 100%;
+  width: 90%;
 }
 
 figcaption {
@@ -98,14 +96,10 @@ figcaption {
 
 .single-img-container {
   display: inline-block;
-  width: 30vw;
-  max-width: 600px;
+  max-width: 500px;
   border: 1px solid #e3e6f0;
   border-radius: 4px;
   align-items: center;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  margin-right: 1em;
 }
 
 .single-img-container:hover {
@@ -140,4 +134,9 @@ figcaption {
 
 .csv-column {
   flex: 50%;
+}
+
+.mat-slider {
+  margin-left: 2em;
+  width: 10%;
 }

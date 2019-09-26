@@ -26,19 +26,20 @@
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-main">
     <button mat-raised-button (click)="sidenav.toggle()" [style.margin-top]="'1em'"><mat-icon mat-list-icon>list</mat-icon></button>
-    <mat-button-toggle-group multiple name="fontStyle" aria-label="Font Style" [style.margin-left]="'1em'" [style.margin-top]="'1em'">
+    <mat-button-toggle-group multiple name="fontStyle" aria-label="Font Style" [style.margin-left]="'2em'" [style.margin-top]="'1em'">
       <mat-button-toggle (click)="onVariableClickAll()" [checked]="variableSelectAll$ | async">All</mat-button-toggle>
       <mat-button-toggle *ngFor="let variable of variableList$ | async; index as i" (click)="onVariableClick(variable)" [checked]="variableMap[variable]">{{ i }}</mat-button-toggle>
     </mat-button-toggle-group>
+    <mat-slider invert min="40" max="100" [(ngModel)]="sliderValue" (input)="sliderValue = $event.value"></mat-slider>
     <mat-divider></mat-divider>
     <ng-container *ngIf="activeSubjectCount$ | async as subjectCount">
       <ng-container *ngIf="subjectCount > 1; else loadOneSubject">
         <div class="wrapper">
           <div class="container">
-            <div *ngFor="let subjectImages of pathArray$ | async; index as i" class="column" [style.width]="subjectCount >= 4 ? '25%' : '33%'">
+            <div *ngFor="let subjectImages of pathArray$ | async; index as i" class="column" [style.width.%]="subjectCount >= 4 ? (25 * sliderValue / 100) : (33 * sliderValue / 100)">
               <ng-container *ngIf="subjectList$ | async as subjectList">
                 <mat-accordion>
-                  <mat-expansion-panel [style.width]="'95%'">
+                  <mat-expansion-panel [style.width.%]="95">
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         {{ subjectList[i] }} 
@@ -50,28 +51,35 @@
                     <button mat-button color="primary" (click)="openDialog()" [style.float]="'right'" [style.line-height]="'0px'">Load More Info</button>
                     <br>
                     <div class="csv-container" *ngFor="let entry of activeCSVEntry$ | async">
-                      <div class="csv-column" [style.text-align]="'right'" [style.padding-right]="'0.5em'" [style.font-weight]="'550'">{{ entry }}</div>
-                      <div class="csv-column" [style.padding-left]="'0.5em'">{{ csvDataMap[subjectList[i]][entry] }}</div>
+                      <div class="csv-column" [style.text-align]="'right'" [style.padding-right]="'0.5vw'" [style.font-weight]="'550'">{{ entry }}</div>
+                      <div class="csv-column" [style.padding-left]="'0.5vw'">{{ csvDataMap[subjectList[i]][entry] }}</div>
                     </div>
                   </mat-expansion-panel>
                 </mat-accordion>
               </ng-container>
-              <ng-scrollbar style="width:100%;
+              <ng-scrollbar 
+                [style.margin-top.vw]="sliderValue / 100"
+                            style="width:100%;
                                    height:90%;
-                                  margin-top: 1em;
                                   --scrollbar-size: 6px;
                                   --scrollbar-thumb-color: gray;
                                   --scrollbar-hover-size: 10px;
                                   --scrollbar-track-color: rgba(0, 0, 0, 0.05);
                                   --scrollbar-border-radius: 10px;" visibility="hover">
                 <cdk-virtual-scroll-viewport scrollViewport itemSize="14">
-                  <div cdkScrollable *cdkVirtualFor="let imgPath of subjectImages; index as j" class="img-container" id="left">
+                  <div cdkScrollable *cdkVirtualFor="let imgPath of subjectImages; index as j" class="img-container" id="left"
+                  [style.margin-bottom.vw]="sliderValue / 100"
+                  >
                     <figure>
-                      <figcaption [style.caption-side]="'top'" [style.font-size]="'1vw'">
+                      <figcaption [style.caption-side]="'top'" [style.font-size.vw]="sliderValue / 100">
                         {{ this.data.getSubjectList()[i] }}
                       </figcaption>
-                      <img [src]="imgPath" onerror="this.onerror=null; this.src='assets/nodata1.PNG';">
-                      <figcaption [style.caption-side]="'bottom'" [style.margin-top]="'1em'">
+                      <img 
+                        [style.padding-top.vw]="2 * sliderValue / 100"
+                        [style.padding-left.vw]="sliderValue / 100"
+                        [style.padding-right.vw]="sliderValue / 100"
+                      [src]="imgPath" onerror="this.onerror=null; this.src='assets/nodata1.PNG';">
+                      <figcaption [style.caption-side]="'bottom'" [style.font-size.vw]="subjectCount >= 4? sliderValue * 8 / 1000 : sliderValue / 100">
                         {{ this.data.getVariableList()[j] }}
                       </figcaption>
                     </figure>
@@ -106,20 +114,25 @@
                   </mat-expansion-panel>
                 </mat-accordion>
                 <ng-scrollbar 
-                  style="height: 33vw;
-                  min-height: 300px;
+                  style="min-height: 300px;
                   --scrollbar-size: 6px;
                   --scrollbar-thumb-color: gray;
                   --scrollbar-hover-size: 10px;
                   --scrollbar-track-color: rgba(0, 0, 0, 0.05);
-                  --scrollbar-border-radius: 10px;" track="all">
-                    <div *ngFor="let imgPath of paths[0]; index as j" class="single-img-container">
+                  --scrollbar-border-radius: 10px;" track="all"
+                  [style.height.vw]="(26 * sliderValue / 100) + 5">
+                    <div *ngFor="let imgPath of paths[0]; index as j" class="single-img-container" 
+                    [style.width.vw]="26 * sliderValue / 100" 
+                    [style.padding-top.vw]="sliderValue / 100"
+                    [style.padding-bottom.vw]="sliderValue / 100"
+                    [style.margin-right.vw]="sliderValue / 100"
+                    >
                       <figure>
-                        <figcaption [style.caption-side]="'top'" [style.font-size]="'1vw'">
+                        <figcaption [style.caption-side]="'top'" [style.font-size.vw]="sliderValue / 100">
                           {{ this.data.getSubjectList()[i] }}
                         </figcaption>
-                        <img [src]="imgPath" onerror="this.onerror=null; this.src='assets/nodata1.PNG';">
-                        <figcaption [style.caption-side]="'bottom'" [style.font-size]="'1vw'" [style.margin-top]="'1em'">
+                        <img [style.width.vw]="22 * sliderValue / 100" [style.padding-top.vw]="2 * sliderValue / 100" [src]="imgPath" onerror="this.onerror=null; this.src='assets/nodata1.PNG';">
+                        <figcaption [style.caption-side]="'bottom'" [style.font-size.vw]="sliderValue / 100" [style.margin-top.vw]="sliderValue / 100">
                           {{ this.data.getVariableList()[j] }}
                         </figcaption>
                       </figure>

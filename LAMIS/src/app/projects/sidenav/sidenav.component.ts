@@ -31,19 +31,21 @@ export class SidenavComponent implements OnInit {
       updated: new Date('1/18/16'),
     }
   ];
-  subjectSelectAll$ : Observable<boolean>;
-  variableSelectAll$: Observable<boolean>;
-  subjectList$: Observable<string []>;
-  variableList$: Observable<string []>;
-  pathArray$: Observable<any []>;
-  activeSubjectCount$: Observable<number>;
-  activeCSVEntry$: Observable<Array<string>>;
+
+  private subjectSelectAll$ : Observable<boolean>;
+  private variableSelectAll$: Observable<boolean>;
+  private subjectList$: Observable<string []>;
+  private variableList$: Observable<string []>;
+  private pathArray$: Observable<any []>;
+  private activeSubjectCount$: Observable<number>;
+  private activeCSVEntry$: Observable<Array<string>>;
   
-  opened: boolean = true;
-  subjectMap: Object = {};
-  variableMap: Object = {};
-  csvDataMap: Object = {};
-  csvDataList: Array<string> = [];
+  private opened: boolean = true;
+  private subjectMap: Object = {};
+  private variableMap: Object = {};
+  private csvDataMap: Object = {};
+  private csvDataList: Array<string> = [];
+  private sliderValue: number = 100;
 
   constructor(private data: DataService, private scrollDispatcher: ScrollDispatcher, private dialog: MatDialog) {}
 
@@ -149,5 +151,9 @@ export class DialogComponent implements OnInit{
       this.entryMap[entry] = false;
     }
     this.dataservice.setActiveCSVEntry(this.activeCSVEntry);
+  }
+
+  sliderFormat(value: number) {
+    return (100 - value) + '%';
   }
 }
