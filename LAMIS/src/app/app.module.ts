@@ -31,6 +31,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTreeModule } from '@angular/material/tree';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
@@ -63,7 +64,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     MatExpansionModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatSliderModule
+    MatSliderModule,
+    MatTreeModule
   ],
   entryComponents: [
     DialogComponent

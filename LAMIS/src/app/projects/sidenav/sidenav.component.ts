@@ -3,6 +3,8 @@ import { DataService } from 'src/app/data.service';
 import { Observable } from 'rxjs';
 import { ScrollDispatcher, CdkScrollable } from '@angular/cdk/overlay';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 
 export interface Section {
   name: string;
@@ -11,7 +13,7 @@ export interface Section {
 
 export interface DialogData {
   csvDataMap: Object;
-  csvDataList: Array<string>;
+  csvDataList: Object;
 }
 
 @Component({
@@ -44,7 +46,7 @@ export class SidenavComponent implements OnInit {
   private subjectMap: Object = {};
   private variableMap: Object = {};
   private csvDataMap: Object = {};
-  private csvDataList: Array<string> = [];
+  private csvDataList: Object = {};
   private sliderValue: number = 100;
 
   constructor(private data: DataService, private scrollDispatcher: ScrollDispatcher, private dialog: MatDialog) {}
@@ -71,6 +73,7 @@ export class SidenavComponent implements OnInit {
     this.data.csvDataList.subscribe(
       value => this.csvDataList = value
     );
+
     this.activeCSVEntry$ = this.data.activeCSVEntry;
     this.scrollDispatcher.scrolled().subscribe((scrollable: CdkScrollable) => {
       const top = scrollable.measureScrollOffset('top');
@@ -110,6 +113,11 @@ export class SidenavComponent implements OnInit {
   }
 }
 
+interface FileNode {
+  name: string;
+  children?: FileNode[];
+}
+
 @Component({
   selector: 'sidenav-dialog',
   templateUrl: './dialog.component.html',
@@ -118,7 +126,11 @@ export class SidenavComponent implements OnInit {
 })
 export class DialogComponent implements OnInit{
   private entryMap: Object = {};
+  private fileList: Array<string>;
   private activeCSVEntry: Array<string>;
+  private treeControl = new NestedTreeControl<FileNode>(node => node.children);
+  private dataSource = new MatTreeNestedDataSource<FileNode>();
+  private TREE_DATA: FileNode[] = [];
 
   constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private dataservice: DataService) {}
 
@@ -129,11 +141,36 @@ export class DialogComponent implements OnInit{
         for (let entry of this.activeCSVEntry) {
           this.entryMap[entry] = true;
         }
-        console.log(this.activeCSVEntry);
       }
     );
+    this.fileList = this.dataservice.csvfileList;
+    this.constructTreeData();
+    this.dataSource.data = this.TREE_DATA;
   }
   
+  //Determine whether entry has child or not
+  hasChild = (_: number, node: FileNode) => !!node.children && node.children.length > 0;
+
+  //Construct Tree Data structure to use in dialog
+  constructTreeData() {
+    for (let file of this.fileList) {
+      let tempFileNode: FileNode = {
+        name: '',
+        children: []
+      }
+      tempFileNode.name = file;
+      for (let csvHeaders of this.data.csvDataList[file]) {
+        let tempCSVHeadersNode: FileNode = {
+          name: '',
+          children: []
+        }
+        tempCSVHeadersNode.name = csvHeaders;
+        tempFileNode.children.push(tempCSVHeadersNode);
+      }
+      this.TREE_DATA.push(tempFileNode);
+    }
+  }
+
   onUpdateClick(): void {
     this.dialogRef.close();
   }
@@ -151,9 +188,5 @@ export class DialogComponent implements OnInit{
       this.entryMap[entry] = false;
     }
     this.dataservice.setActiveCSVEntry(this.activeCSVEntry);
-  }
-
-  sliderFormat(value: number) {
-    return (100 - value) + '%';
   }
 }

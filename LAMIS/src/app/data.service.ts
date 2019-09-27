@@ -50,8 +50,8 @@ export class DataService {
   private _csvDataMap = new BehaviorSubject<Object>({});
   csvDataMap = this._csvDataMap.asObservable();
 
-  //csvMask info( Array of csvHeaders )
-  private _csvDataList = new BehaviorSubject<Array<string>>([]);
+  //csvMask info( Key: filename Value: [csvHeaders] )
+  private _csvDataList = new BehaviorSubject<Object>({});
   csvDataList = this._csvDataList.asObservable();
 
   //Update default csv entries to present (ex: [Proj, Subj, ... ])
@@ -65,10 +65,13 @@ export class DataService {
   private localSubjectMap = {};
   private localVariableMap = {};
   private localCSVMap: Object = {};
-  private localCSVList: Array<string> = [];
+  //Local mapping variable to update _csvDataList2
+  private localCSVDataList: Object = {};
   private imgPath: string;
   private csvInfo: Object = {};
   private csvPathMap: Object = {};
+  // [filename]
+  public csvfileList: Array<string> = [];
 
   constructor(private http: HttpClient, private papa: Papa) {
     this.loadData()
@@ -130,7 +133,7 @@ export class DataService {
   }
 
   public getSubjectSelectAll() {
-    return this._subjectSelectAll.getValue();
+    return this._subjectSelectAll.value;
   }
 
   public updateSubjectSelectAll(bool: boolean) {
@@ -145,7 +148,7 @@ export class DataService {
   }
 
   public getVariableSelectAll() {
-    return this._variableSelectAll.getValue()
+    return this._variableSelectAll.value
   }
 
   public updateVariableSelectAll(bool: boolean) {
@@ -160,15 +163,15 @@ export class DataService {
   }
 
   public updateSubjectMap(subject: string) {
-    this.localSubjectMap = this._subjectMap.getValue();
+    this.localSubjectMap = this._subjectMap.value;
     if (this.localSubjectMap[subject]) {
       //Update '_activeSubjectCount -= 1'
-      this._activeSubjectCount.next(this._activeSubjectCount.getValue() - 1);
+      this._activeSubjectCount.next(this._activeSubjectCount.value - 1);
           //Destroy CSV info of 'subject'
           //this.localCSVMap[subject] = [];
           //this._csvLabel.next(this.localCSVMap);
       //Update 'subjectSelectAll'
-      if (this._activeSubjectCount.getValue() == 0) {
+      if (this._activeSubjectCount.value == 0) {
         this.updateSubjectSelectAll(false);
       }
       //Otherwise update 'localSubjectMap'
@@ -179,11 +182,11 @@ export class DataService {
     }
     else {
       //Update '_activeSubjectCount += 1'
-      this._activeSubjectCount.next(this._activeSubjectCount.getValue() + 1);
+      this._activeSubjectCount.next(this._activeSubjectCount.value + 1);
       //Construct CSV info of 'subject'
       this.loadSubjectCSV(subject);
       //Update 'subjectSelectAll'
-      if (this._activeSubjectCount.getValue() == this.totalSubjectNum) {
+      if (this._activeSubjectCount.value == this.totalSubjectNum) {
         this.updateSubjectSelectAll(true)
       }
       //Otherwise update 'localSubjectMap'
@@ -196,7 +199,7 @@ export class DataService {
   }
 
   public updateSubjectMapAll(subjectSelectAll: boolean) {
-    this.localSubjectMap = this._subjectMap.getValue();
+    this.localSubjectMap = this._subjectMap.value;
     for (let subject in this.localSubjectMap) {
       this.localSubjectMap[subject] = subjectSelectAll;
       if (subjectSelectAll) {
@@ -208,7 +211,7 @@ export class DataService {
   }
 
   public updateVariableMap(variable: string) {
-    this.localVariableMap = this._variableMap.getValue();
+    this.localVariableMap = this._variableMap.value;
     if (this.localVariableMap[variable]) {
       this.activeVariableCount -= 1;
       if (this.activeVariableCount == 0) {
@@ -233,7 +236,7 @@ export class DataService {
   }
 
   public updateVariableMapAll(variableSelectAll: boolean) {
-    this.localVariableMap = this._variableMap.getValue();
+    this.localVariableMap = this._variableMap.value;
     for (let variable in this.localVariableMap) {
       this.localVariableMap[variable] = variableSelectAll;
     }
@@ -259,11 +262,11 @@ export class DataService {
   }
 
   public getSubjectList() {
-    return this._subjectList.getValue()
+    return this._subjectList.value
   }
 
   public getVariableList() {
-    return this._variableList.getValue()
+    return this._variableList.value
   }
 
   private constructCSVPathArray() {
@@ -280,6 +283,9 @@ export class DataService {
         for (let file of fileList[folderIndex]) {
           let newPath: string = csvPath.replace(/subjectName/gi, subject).replace(/directoryName/gi, folder).replace(/fileName/gi, file);
           folderPathArray.push(newPath);
+          if (!this.csvfileList.includes(file)) {
+            this.csvfileList.push(file);
+          }
         }
         subjectCSVPathArray.push(folderPathArray);
       }
@@ -292,37 +298,6 @@ export class DataService {
     this.csvInfo = {};
   }
 
-  /*
-  //Bring CSV info of 'subject'
-  private loadSubjectCSV(subject: string) {
-    let singleSubjectCSVData: Array<Array<string>> = [];
-    for (let folder of this.csvPathMap[subject]) {
-      for (let filePath of folder) {
-        this.http.get(filePath, {
-          responseType: 'text'
-        }).subscribe(
-          data => this.extractCSVData(data, singleSubjectCSVData),
-          err => console.log('error: ', err)
-        )
-      }
-    }
-    this.localCSVMap[subject] = singleSubjectCSVData;
-    this._csvLabel.next(this.localCSVMap);
-  }
-
-  private extractCSVData(res, singleSubjectCSVData: Array<Array<string>>) {
-    let data = res || '';
-    this.papa.parse(data, {
-      complete: parsedData => {
-        let tempSingleCSVFileDataArray = [];
-        for (let dataIndex in parsedData.data[0]) {
-          tempSingleCSVFileDataArray.push([parsedData.data[0][dataIndex], parsedData.data[1][dataIndex], false]);
-        }
-        singleSubjectCSVData.push(...tempSingleCSVFileDataArray)
-      }
-    })
-  }
-  */
   //Bring CSV info of 'subject'
   private loadSubjectCSV(subject: string) {
     let singleSubjectCSVData: Object = {};
@@ -337,7 +312,6 @@ export class DataService {
       }
     }
     this.localCSVMap[subject] = singleSubjectCSVData;
-    console.log(this.localCSVMap);
     this._csvDataMap.next(this.localCSVMap);
   }
 
@@ -353,31 +327,37 @@ export class DataService {
   }
 
   private constructCSVHeaderList(subjectList: Array<string>) {
+    this.localCSVDataList = [];
     if (subjectList.length) {
+      let file_index = 0;
       for (let folder of this.csvPathMap[subjectList[0]]) {
         for (let filePath of folder) {
           this.http.get(filePath, {
             responseType: 'text'
           }).subscribe(
-            data => this.extractCSVMaskData(data),
+            data => {
+              this.localCSVDataList[this.csvfileList[file_index++]] = this.extractCSVMaskData(data);
+            },
             err => console.log('error: ', err)
           )
         }
       }
     }
-    console.log(this.localCSVList);
-    this._csvDataList.next(this.localCSVList);
+    console.log(this.localCSVDataList);
+    this._csvDataList.next(this.localCSVDataList);
   }
 
-  private extractCSVMaskData(res) {
+  private extractCSVMaskData(res): Array<string> {
     let data = res || '';
+    let fileHeaders: Array<string> = [];
     this.papa.parse(data, {
       complete: parsedData => {
         for (let dataIndex in parsedData.data[0]) {
-          this.localCSVList.push(parsedData.data[0][dataIndex])
+          fileHeaders.push(parsedData.data[0][dataIndex])
         }
       }
     })
+    return fileHeaders;
   }
 
   private updateActiveCSVEntry() {
