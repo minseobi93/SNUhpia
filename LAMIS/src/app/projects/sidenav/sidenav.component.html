@@ -36,10 +36,10 @@
       <ng-container *ngIf="subjectCount > 1; else loadOneSubject">
         <div class="wrapper">
           <div class="container">
-            <div *ngFor="let subjectImages of pathArray$ | async; index as i" class="column" [style.width.%]="subjectCount >= 4 ? (25 * sliderValue / 100) : (33 * sliderValue / 100)">
+            <div *ngFor="let subjectImages of pathArray$ | async; index as i; first as isFirst" class="column" [style.width.%]="subjectCount >= 4 ? (25 * sliderValue / 100) : (33 * sliderValue / 100)">
               <ng-container *ngIf="subjectList$ | async as subjectList">
                 <mat-accordion>
-                  <mat-expansion-panel [style.width.%]="95">
+                  <mat-expansion-panel [style.width.%]="95" [style.margin-top.em]="1">
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         {{ subjectList[i] }} 
@@ -50,10 +50,10 @@
                     </mat-expansion-panel-header>
                     <button mat-button color="primary" (click)="openDialog()" [style.float]="'right'" [style.line-height]="'0px'">Load More Data</button>
                     <br>
-                    <div class="csv-container" *ngFor="let entry of activeCSVEntry$ | async">
-                      <div class="csv-column" [style.text-align]="'right'" [style.padding-right.vw]="sliderValue / 200" [style.font-weight]="'550'" [style.font-size.vw]="0.7">{{ entry }}</div>
-                      <div class="csv-column" [style.padding-left.vw]="sliderValue / 200" [style.font-size.vw]="0.7">{{ csvDataMap[subjectList[i]][entry] }}</div>
-                    </div>
+                      <div class="csv-container" *ngFor="let entry of activeCSVEntry$ | async">
+                        <div class="csv-column" [style.text-align]="'right'" [style.padding-right.vw]="sliderValue / 200" [style.font-weight]="'550'" [style.font-size.vw]="0.7">{{ entry }}</div>
+                        <div class="csv-column" [style.padding-left.vw]="sliderValue / 200" [style.font-size.vw]="0.7">{{ csvDataMap[subjectList[i]][entry] }}</div>
+                      </div>
                   </mat-expansion-panel>
                 </mat-accordion>
               </ng-container>
@@ -96,7 +96,7 @@
             <ng-container *ngIf="pathArray$ | async as paths">
               <div class="single-wrapper">
                 <mat-accordion>
-                  <mat-expansion-panel [style.margin-bottom]="'1em'" [style.width.vw]="26">
+                  <mat-expansion-panel [style.margin-top]="'1em'" [style.margin-bottom]="'1em'" [style.width.vw]="26">
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         {{ subject }}

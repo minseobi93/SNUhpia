@@ -32,7 +32,6 @@
 .mat-divider {
   border-top-color: #e0e0e0;
   margin-top: 1em;
-  margin-bottom: 1em;
 }
 
 .mat-subheader {
@@ -63,7 +62,6 @@
 .container {
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 .container .column {
