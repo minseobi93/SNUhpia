@@ -18,6 +18,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { HomeComponent } from './home/home.component';
 import { SidenavComponent, DialogComponent } from './projects/sidenav/sidenav.component';
+import { NotesComponent } from './projects/sidenav/notes/notes.component';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,6 +33,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatInputModule } from '@angular/material/input';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
@@ -41,7 +44,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     ProjectsComponent,
     HomeComponent,
     SidenavComponent,
-    DialogComponent
+    DialogComponent,
+    NotesComponent
   ],
   imports: [
     BrowserModule,
@@ -65,10 +69,13 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     MatDialogModule,
     MatCheckboxModule,
     MatSliderModule,
-    MatTreeModule
+    MatTreeModule,
+    MatBottomSheetModule,
+    MatInputModule
   ],
   entryComponents: [
-    DialogComponent
+    DialogComponent,
+    NotesComponent
   ],
   providers: [
     AuthService,

@@ -31,6 +31,7 @@
       <mat-button-toggle *ngFor="let variable of variableList$ | async; index as i" (click)="onVariableClick(variable)" [checked]="variableMap[variable]">{{ i }}</mat-button-toggle>
     </mat-button-toggle-group>
     <mat-slider invert min="40" max="100" [(ngModel)]="sliderValue" (input)="sliderValue = $event.value"></mat-slider>
+    <button mat-raised-button color="primary" [style.float]="'right'" [style.margin-top]="'1.7em'" (click)="openNote()">Add Note</button>
     <mat-divider></mat-divider>
     <ng-container *ngIf="activeSubjectCount$ | async as subjectCount">
       <ng-container *ngIf="subjectCount > 1; else loadOneSubject">

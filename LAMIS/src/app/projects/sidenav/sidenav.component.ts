@@ -5,6 +5,8 @@ import { ScrollDispatcher, CdkScrollable } from '@angular/cdk/overlay';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { NotesComponent } from './notes/notes.component';
 
 export interface Section {
   name: string;
@@ -49,7 +51,7 @@ export class SidenavComponent implements OnInit {
   private csvDataList: Object = {};
   private sliderValue: number = 100;
 
-  constructor(private data: DataService, private scrollDispatcher: ScrollDispatcher, private dialog: MatDialog) {}
+  constructor(private data: DataService, private scrollDispatcher: ScrollDispatcher, private dialog: MatDialog, private _bottomSheet: MatBottomSheet) {}
 
   ngOnInit() {
     this.activeSubjectCount$ = this.data.activeSubjectCount;
@@ -110,6 +112,10 @@ export class SidenavComponent implements OnInit {
         csvDataList: this.csvDataList
       }
     });
+  }
+
+  openNote(): void {
+    this._bottomSheet.open(NotesComponent);
   }
 }
 
