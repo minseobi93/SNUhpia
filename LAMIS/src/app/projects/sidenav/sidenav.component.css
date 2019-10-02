@@ -19,6 +19,7 @@
 .sidenav-main {
   padding-left: 1em;
   padding-right: 1em;
+  overflow: hidden;
 }
 
 .sidenav-button {

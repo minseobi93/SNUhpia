@@ -1,6 +1,9 @@
 <form class="example-form">
   <mat-form-field [style.width.%]="100">
     <input matInput placeholder="Subject">
+    <div *ngFor="let note of noteList">
+      {{ note.subject }}
+    </div>
   </mat-form-field>
   <mat-form-field appearance="outline" [style.width.%]="100" >
     <mat-label>Leave a comment</mat-label>

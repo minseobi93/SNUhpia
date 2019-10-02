@@ -30,7 +30,7 @@
       <mat-button-toggle (click)="onVariableClickAll()" [checked]="variableSelectAll$ | async">All</mat-button-toggle>
       <mat-button-toggle *ngFor="let variable of variableList$ | async; index as i" (click)="onVariableClick(variable)" [checked]="variableMap[variable]">{{ i }}</mat-button-toggle>
     </mat-button-toggle-group>
-    <mat-slider invert min="40" max="100" [(ngModel)]="sliderValue" (input)="sliderValue = $event.value"></mat-slider>
+    <mat-slider min="40" max="100" [(ngModel)]="sliderValue" (input)="sliderValue = $event.value"></mat-slider>
     <button mat-raised-button color="primary" [style.float]="'right'" [style.margin-top]="'1.7em'" (click)="openNote()">Add Note</button>
     <mat-divider></mat-divider>
     <ng-container *ngIf="activeSubjectCount$ | async as subjectCount">
@@ -61,6 +61,7 @@
               <ng-scrollbar 
                 [style.margin-top.vw]="sliderValue / 100"
                             style="width:100%;
+                                  overflow:hidden;
                                    height:90%;
                                   --scrollbar-size: 6px;
                                   --scrollbar-thumb-color: gray;

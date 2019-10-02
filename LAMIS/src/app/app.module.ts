@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 
 import { AuthService } from './auth.service';
 import { DataService } from './data.service';
+import { NoteService } from './note.service';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -80,6 +81,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
   providers: [
     AuthService,
     DataService,
+    NoteService
   ],
   bootstrap: [AppComponent]
 })
