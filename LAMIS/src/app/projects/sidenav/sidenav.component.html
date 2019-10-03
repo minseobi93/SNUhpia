@@ -1,5 +1,5 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav mode="side" class="sidenav-content" [(opened)]="opened">
+  <mat-sidenav #sidenav mode="side" class="sidenav-content">
     <mat-action-list>
         <h3 mat-subheader>Subjects</h3>
         <button mat-list-item (click)="onSubjectClickAll()">
@@ -15,14 +15,14 @@
         <mat-divider></mat-divider>
         <br>
       </mat-action-list>
-    <mat-list>
+    <mat-action-list>
       <h3 mat-subheader>Notes</h3>
-      <mat-list-item *ngFor="let note of notes">
+      <button mat-list-item *ngFor="let note of noteList" (click)="onNoteClick(note)">
         <mat-icon mat-list-icon>note</mat-icon>
-        <h4 mat-line>{{note.name}}</h4>
-        <p mat-line> {{note.updated | date}} </p>
-      </mat-list-item>
-    </mat-list>
+        <h4 mat-line>{{note.subject}}</h4>
+        <p mat-line>updated at: {{note.updated_at | date}}</p>
+      </button>
+    </mat-action-list>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-main">
     <button mat-raised-button (click)="sidenav.toggle()" [style.margin-top]="'1em'"><mat-icon mat-list-icon>list</mat-icon></button>

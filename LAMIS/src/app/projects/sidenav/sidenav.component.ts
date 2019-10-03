@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { DataService } from 'src/app/data.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ScrollDispatcher, CdkScrollable } from '@angular/cdk/overlay';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { NotesComponent } from './notes/notes.component';
+import { NotesComponent, Note } from './notes/notes.component';
+import { NoteService } from 'src/app/note.service';
 
 export interface Section {
   name: string;
@@ -24,7 +25,8 @@ export interface DialogData {
   styleUrls: ['./sidenav.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, OnDestroy {
+
   notes: Section[] = [
     {
       name: 'Vacation Itinerary',
@@ -43,17 +45,24 @@ export class SidenavComponent implements OnInit {
   private pathArray$: Observable<any []>;
   private activeSubjectCount$: Observable<number>;
   private activeCSVEntry$: Observable<Array<string>>;
-  
-  private opened: boolean = true;
+
   private subjectMap: Object = {};
   private variableMap: Object = {};
   private csvDataMap: Object = {};
   private csvDataList: Object = {};
   private sliderValue: number = 100;
+  private noteList: Note[];
+  private noteSubs: Subscription;
 
-  constructor(private data: DataService, private scrollDispatcher: ScrollDispatcher, private dialog: MatDialog, private _bottomSheet: MatBottomSheet) {}
+  constructor(private data: DataService, private scrollDispatcher: ScrollDispatcher, private dialog: MatDialog, private _bottomSheet: MatBottomSheet, private noteService: NoteService) {}
 
   ngOnInit() {
+    this.noteSubs = this.noteService.getNotes().subscribe(
+      res => {
+        this.noteList = res;
+      },
+      console.error
+    );
     this.activeSubjectCount$ = this.data.activeSubjectCount;
     this.subjectSelectAll$ = this.data.subjectSelectAll;
     this.variableSelectAll$ = this.data.variableSelectAll;
@@ -62,7 +71,6 @@ export class SidenavComponent implements OnInit {
     this.data.subjectMap.subscribe(
       value => { 
         this.subjectMap = value;
-        this.opened = true;
       }
     );
     this.data.variableMap.subscribe(
@@ -75,7 +83,6 @@ export class SidenavComponent implements OnInit {
     this.data.csvDataList.subscribe(
       value => this.csvDataList = value
     );
-
     this.activeCSVEntry$ = this.data.activeCSVEntry;
     this.scrollDispatcher.scrolled().subscribe((scrollable: CdkScrollable) => {
       const top = scrollable.measureScrollOffset('top');
@@ -85,6 +92,10 @@ export class SidenavComponent implements OnInit {
         }
       })
     })
+  }
+
+  ngOnDestroy() {
+    this.noteSubs.unsubscribe();
   }
 
   onSubjectClick(subject: string): void {
@@ -116,6 +127,10 @@ export class SidenavComponent implements OnInit {
 
   openNote(): void {
     this._bottomSheet.open(NotesComponent);
+  }
+
+  onNoteClick(note: Note) {
+    this._bottomSheet.open(NotesComponent, { data: note });
   }
 }
 

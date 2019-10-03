@@ -1,12 +1,18 @@
-<form class="example-form">
-  <mat-form-field [style.width.%]="100">
-    <input matInput placeholder="Subject">
-    <div *ngFor="let note of noteList">
-      {{ note.subject }}
-    </div>
-  </mat-form-field>
-  <mat-form-field appearance="outline" [style.width.%]="100" >
-    <mat-label>Leave a comment</mat-label>
-    <textarea [style.height.vw]="15" matInput></textarea>
-  </mat-form-field>
-</form>
+<ng-container *ngIf="receiveData == false; else loadExistingNote">
+  <form (ngSubmit)="saveNote()" #noteForm="ngForm" class="example-form">
+    <mat-form-field [style.width.%]="100">
+      <input matInput placeholder="Subject" [(ngModel)]="temp_note.subject" name="subject" required>
+    </mat-form-field>
+    <mat-form-field appearance="outline" [style.width.%]="100" >
+      <mat-label>Leave a comment</mat-label>
+      <textarea [style.height.vw]="12" matInput [(ngModel)]="temp_note.description" name="description" required></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [style.float]="'right'" [style.margin-bottom.vw]="1" [disabled]="!noteForm.form.valid">Save Note</button>
+  </form>
+</ng-container>
+<ng-template #loadExistingNote>
+  <h3>{{ data.subject }}</h3>
+  <p [style.margin-bottom.vw]="1" [style.height.vw]="12">{{ data.description }}</p>
+  <button mat-raised-button color="accent" [style.float]="'right'" [style.margin-bottom.vw]="1">Delete</button>
+  <button mat-raised-button color="primary" [style.margin-bottom.vw]="1" [style.margin-right.vw]="0.5">Revise</button>
+</ng-template>

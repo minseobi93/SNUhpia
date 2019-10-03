@@ -36,6 +36,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
@@ -72,6 +73,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     MatSliderModule,
     MatTreeModule,
     MatBottomSheetModule,
+    MatFormFieldModule,
     MatInputModule
   ],
   entryComponents: [

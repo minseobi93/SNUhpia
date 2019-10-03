@@ -9,6 +9,7 @@
 }
 
 .sidenav-content {
+  max-width: 20vw;
   background: #f8f9fa;
   color:rgba(0, 0, 0, 0.74);
   border-right-color: #e0e0e0;

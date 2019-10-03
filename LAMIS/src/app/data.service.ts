@@ -343,7 +343,7 @@ export class DataService {
         }
       }
     }
-    console.log(this.localCSVDataList);
+    //console.log(this.localCSVDataList);
     this._csvDataList.next(this.localCSVDataList);
   }
 
