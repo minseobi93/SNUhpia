@@ -5,14 +5,12 @@ from flask_cors import CORS
 
 # creating the Flask application
 app = Flask(__name__)
+app.config['debug'] = True
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 CORS(app)
 
 # if needed, generate db schema
 Base.metadata.create_all(engine)
-
-#temp_subject = "SQLAlchemy Note"
-#temp_description = "I'm writing SQLAlchemy comment."
-#temp_user = "Taewon"
 
 @app.route('/notes')
 def get_notes():
@@ -30,7 +28,7 @@ def get_notes():
 @app.route('/notes', methods=['POST'])
 def add_note():
   # bring note info from HTTP request
-  posted_note = NoteSchema(only=('subject', 'description')).load(request.get_json())
+  posted_note = NoteSchema(only=('subject', 'description', 'mode')).load(request.get_json())
   note = Note(**posted_note, created_by="HTTP post request")
 
   # add note
@@ -42,6 +40,7 @@ def add_note():
   new_note = NoteSchema().dump(note)
   session.close()
   return jsonify(new_note), 201
+
 
 #if len(notes) == 0:
 #  python_note = Note(temp_subject, temp_description, temp_user)

@@ -7,7 +7,7 @@ db_url = 'localhost:5432'
 db_name = 'lamis'
 db_user = 'postgres'
 db_password = 'SNUhpia'
-engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_url}/{db_name}')
+engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_url}/{db_name}', isolation_level="READ UNCOMMITTED")
 Session = sessionmaker(bind=engine)
 
 Base = declarative_base()

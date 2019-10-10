@@ -9,11 +9,6 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { NotesComponent, Note } from './notes/notes.component';
 import { NoteService } from 'src/app/note.service';
 
-export interface Section {
-  name: string;
-  updated: Date;
-}
-
 export interface DialogData {
   csvDataMap: Object;
   csvDataList: Object;
@@ -25,18 +20,8 @@ export interface DialogData {
   styleUrls: ['./sidenav.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidenavComponent implements OnInit, OnDestroy {
 
-  notes: Section[] = [
-    {
-      name: 'Vacation Itinerary',
-      updated: new Date('2/20/16'),
-    },
-    {
-      name: 'Kitchen Remodel',
-      updated: new Date('1/18/16'),
-    }
-  ];
+export class SidenavComponent implements OnInit, OnDestroy {
 
   private subjectSelectAll$ : Observable<boolean>;
   private variableSelectAll$: Observable<boolean>;
@@ -51,18 +36,14 @@ export class SidenavComponent implements OnInit, OnDestroy {
   private csvDataMap: Object = {};
   private csvDataList: Object = {};
   private sliderValue: number = 100;
-  private noteList: Note[];
+  private noteList$: Observable<Note []>;
   private noteSubs: Subscription;
 
   constructor(private data: DataService, private scrollDispatcher: ScrollDispatcher, private dialog: MatDialog, private _bottomSheet: MatBottomSheet, private noteService: NoteService) {}
 
   ngOnInit() {
-    this.noteSubs = this.noteService.getNotes().subscribe(
-      res => {
-        this.noteList = res;
-      },
-      console.error
-    );
+    this.noteList$ = this.noteService.noteList;
+    this.noteService.getNotes();
     this.activeSubjectCount$ = this.data.activeSubjectCount;
     this.subjectSelectAll$ = this.data.subjectSelectAll;
     this.variableSelectAll$ = this.data.variableSelectAll;
@@ -114,6 +95,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     this.data.updateVariableSelectAll(!this.data.getVariableSelectAll());
   }
 
+  // Open a dialog to access CSV data
   openDialog(): void {
     this.dialog.open(DialogComponent, {
       width: '25vw',
@@ -125,10 +107,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Open a new note panel to compose a new note
   openNote(): void {
     this._bottomSheet.open(NotesComponent);
   }
 
+  // Open saved notes when clicking them
   onNoteClick(note: Note) {
     this._bottomSheet.open(NotesComponent, { data: note });
   }

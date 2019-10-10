@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Note } from './projects/sidenav/notes/notes.component';
 
@@ -9,18 +9,29 @@ import { Note } from './projects/sidenav/notes/notes.component';
 })
 export class NoteService {
 
+  private _noteList = new BehaviorSubject<Note []>([]);
+  noteList = this._noteList.asObservable();
+
   constructor(private http: HttpClient) { }
 
   private static _handleError(err: HttpErrorResponse | any) {
     return Observable.throw(err.message || 'Error: Unable to complete request.');
   }
 
-  getNotes(): Observable<any> {
-    return this.http
-      .get(`http://localhost:5000/notes`)
+  // Get noteList
+  getNotes() {
+    this.http.get<Note []>(`http://localhost:5000/notes`)
       .pipe(
         catchError(NoteService._handleError)
-      );
+      ).subscribe(
+        res => {
+          this._noteList.next(res);
+        }
+      )
   }
   
+  // Add, revise, and delete note
+  updateNotes(note: Note): Observable<Object> {
+    return this.http.post(`http://localhost:5000/notes`, note);
+  }
 }

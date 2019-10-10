@@ -1,28 +1,33 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #sidenav mode="side" class="sidenav-content">
-    <mat-action-list>
-        <h3 mat-subheader>Subjects</h3>
-        <button mat-list-item (click)="onSubjectClickAll()">
-          <mat-icon mat-list-icon>menu_open</mat-icon>
-          <h4 mat-line>Select All</h4>
+    <ng-scrollbar style="overflow:hidden;
+    --scrollbar-size: 6px;
+    --scrollbar-padding: 0px;
+    --scrollbar-border-radius: 10px;" visibility="hover">
+      <mat-action-list>
+          <h3 mat-subheader>Subjects</h3>
+          <button mat-list-item (click)="onSubjectClickAll()">
+            <mat-icon mat-list-icon>menu_open</mat-icon>
+            <h4 mat-line>Select All</h4>
+          </button>
+          <button mat-list-item *ngFor="let subject of subjectList$ | async; index as i;" (click)="onSubjectClick(subject, i)">
+            <mat-icon mat-list-icon *ngIf="subjectMap[subject]">folder</mat-icon>
+            <mat-icon mat-list-icon *ngIf="!subjectMap[subject]">folder_open</mat-icon>
+            <h4 mat-line>{{ subject }}</h4>
+          </button>
+          <br>
+          <mat-divider></mat-divider>
+          <br>
+        </mat-action-list>
+      <mat-action-list>
+        <h3 mat-subheader>Notes</h3>
+        <button mat-list-item *ngFor="let note of noteList$ | async" (click)="onNoteClick(note)">
+          <mat-icon mat-list-icon>note</mat-icon>
+          <h4 mat-line>{{note.subject}}</h4>
+          <p mat-line>updated at: {{note.updated_at | date}}</p>
         </button>
-        <button mat-list-item *ngFor="let subject of subjectList$ | async; index as i;" (click)="onSubjectClick(subject, i)">
-          <mat-icon mat-list-icon *ngIf="subjectMap[subject]">folder</mat-icon>
-          <mat-icon mat-list-icon *ngIf="!subjectMap[subject]">folder_open</mat-icon>
-          <h4 mat-line>{{ subject }}</h4>
-        </button>
-        <br>
-        <mat-divider></mat-divider>
-        <br>
       </mat-action-list>
-    <mat-action-list>
-      <h3 mat-subheader>Notes</h3>
-      <button mat-list-item *ngFor="let note of noteList" (click)="onNoteClick(note)">
-        <mat-icon mat-list-icon>note</mat-icon>
-        <h4 mat-line>{{note.subject}}</h4>
-        <p mat-line>updated at: {{note.updated_at | date}}</p>
-      </button>
-    </mat-action-list>
+    </ng-scrollbar>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-main">
     <button mat-raised-button (click)="sidenav.toggle()" [style.margin-top]="'1em'"><mat-icon mat-list-icon>list</mat-icon></button>

@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy, Inject} from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { Subscription } from 'rxjs';
 import { NoteService } from 'src/app/note.service';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 
@@ -9,21 +8,13 @@ import { MAT_BOTTOM_SHEET_DATA } from '@angular/material';
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.css']
 })
-export class NotesComponent implements OnInit, OnDestroy {
-  private noteList: Note[];
-  private noteSubs: Subscription;
+export class NotesComponent implements OnInit {
   private temp_note = new Note('', '');
   private receiveData: boolean;
 
   constructor(@Inject(MAT_BOTTOM_SHEET_DATA) private data: Note, private _bottomSheetRef: MatBottomSheetRef<NotesComponent>, private noteService: NoteService) {}
 
   ngOnInit() {
-    this.noteSubs = this.noteService.getNotes().subscribe(
-      res => {
-        this.noteList = res;
-      },
-      console.error
-    );
     // Receive existing note data
     if (this.data != null) {
       this.receiveData = true;
@@ -33,23 +24,23 @@ export class NotesComponent implements OnInit, OnDestroy {
     }
   }
   
-  ngOnDestroy() {
-    this.noteSubs.unsubscribe();
-  }
-  
   openLink(event: MouseEvent): void {
     this._bottomSheetRef.dismiss();
     event.preventDefault();
   }
 
-  // Add new note to the db
+  // Add a new note to the db
   saveNote() {
     this._bottomSheetRef.dismiss();
     event.preventDefault();
-    this.updateNoteList();
+    this.temp_note.mode = "add";
+    this.noteService.updateNotes(this.temp_note).subscribe(
+      () => this.noteService.getNotes()
+    );
   }
 
-  updateNoteList() {
+  // Update a note content and push to the db
+  updateNote() {
 
   }
 }
@@ -58,6 +49,7 @@ export class Note {
   constructor(
     public subject: string,
     public description: string,
+    public mode?: string,
     public _id?: number,
     public updatedAt?: Date,
     public createdAt?: Date,

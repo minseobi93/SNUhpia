@@ -8,17 +8,20 @@ class Note(NoteEntity, Base):
 
   subject = Column(String)
   description = Column(String)
+  mode = Column(String)
 
-  def __init__(self, subject, description, created_by):
+  def __init__(self, subject, description, mode, created_by):
     NoteEntity.__init__(self, created_by)
     self.subject = subject
     self.description = description
+    self.mode = mode
 
 # Transform instance of Note into JSON object
 class NoteSchema(Schema):
   id = fields.Number()
   subject = fields.Str()
   description = fields.Str()
+  mode = fields.Str()
   created_at = fields.DateTime()
   updated_at = fields.DateTime()
   last_updated_by = fields.Str()
