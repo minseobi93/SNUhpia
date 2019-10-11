@@ -26,31 +26,45 @@ def get_notes():
   return jsonify(notes)
 
 @app.route('/notes', methods=['POST'])
-def add_note():
+def post_note():
   # bring note info from HTTP request
+  posted_note = request.get_json()
+  if posted_note['mode'] == 'add':
+    return add_note(posted_note)
+
+  elif posted_note['mode'] == 'revise':
+    return revise_note(posted_note)
+
+  elif posted_note['mode'] == 'delete':
+    return delete_note(posted_note)
+
+def add_note(posted_note):
   posted_note = NoteSchema(only=('subject', 'description', 'mode')).load(request.get_json())
   note = Note(**posted_note, created_by="HTTP post request")
-
   # add note
   session = Session()
   session.add(note)
   session.commit()
-
   # return created note
   new_note = NoteSchema().dump(note)
   session.close()
   return jsonify(new_note), 201
 
+def revise_note(posted_note):
+  session = Session()
+  note_to_revise = session.query(Note).get(posted_note['id'])
+  note_to_revise.subject = posted_note['subject']
+  note_to_revise.description = posted_note['description']
+  session.commit()
+  revised_note = NoteSchema().dump(note_to_revise)
+  session.close()
+  return jsonify(revised_note), 201
 
-#if len(notes) == 0:
-#  python_note = Note(temp_subject, temp_description, temp_user)
-#  session.add(python_note)
-#  session.commit()
-#  session.close()
-
-  # reload notes
-#  notes = session.query(Note).all()
-
-#print('### Notes:')
-#for note in notes:
-#    print(f'({note.id}) {note.subject} - {note.description}')
+def delete_note(posted_note):
+  session = Session()
+  note_to_delete = session.query(Note).get(posted_note['id'])
+  session.delete(note_to_delete)
+  session.commit()
+  deleted_note = NoteSchema().dump(note_to_delete)
+  session.close()
+  return jsonify(deleted_note), 201

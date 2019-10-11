@@ -20,7 +20,6 @@ export interface DialogData {
   styleUrls: ['./sidenav.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class SidenavComponent implements OnInit, OnDestroy {
 
   private subjectSelectAll$ : Observable<boolean>;

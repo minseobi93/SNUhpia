@@ -31,7 +31,12 @@ export class NoteService {
   }
   
   // Add, revise, and delete note
-  updateNotes(note: Note): Observable<Object> {
-    return this.http.post(`http://localhost:5000/notes`, note);
+  updateNotes(note: Note) {
+    console.log(note);
+    this.http.post(`http://localhost:5000/notes`, note).pipe(
+      catchError(NoteService._handleError)
+    ).subscribe(
+      () => this.getNotes()
+    )
   }
 }

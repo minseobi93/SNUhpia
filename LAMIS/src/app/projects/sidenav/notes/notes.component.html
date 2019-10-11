@@ -7,12 +7,26 @@
       <mat-label>Leave a comment</mat-label>
       <textarea [style.height.vw]="12" matInput [(ngModel)]="temp_note.description" name="description" required></textarea>
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [style.float]="'right'" [style.margin-bottom.vw]="1" [disabled]="!noteForm.form.valid">Save Note</button>
+    <button mat-raised-button color="primary" type="submit" [style.float]="'right'" [style.margin-bottom.vw]="1" [disabled]="!noteForm.form.valid">Save</button>
   </form>
 </ng-container>
 <ng-template #loadExistingNote>
-  <h3>{{ data.subject }}</h3>
-  <p [style.margin-bottom.vw]="1" [style.height.vw]="12">{{ data.description }}</p>
-  <button mat-raised-button color="accent" [style.float]="'right'" [style.margin-bottom.vw]="1">Delete</button>
-  <button mat-raised-button color="primary" [style.margin-bottom.vw]="1" [style.margin-right.vw]="0.5">Revise</button>
+  <ng-container *ngIf="reviseNote == false; else loadReviseWindow">
+    <h3>{{ data.subject }}</h3>
+    <p [style.margin-bottom.vw]="1" [style.height.vw]="12">{{ data.description }}</p>
+    <button mat-raised-button color="accent" [style.float]="'right'" [style.margin-bottom.vw]="1" (click)="deleteNote()">Delete</button>
+    <button mat-raised-button color="primary" [style.margin-bottom.vw]="1" [style.margin-right.vw]="0.5" (click)="onClickRevise()">Revise</button>
+  </ng-container>
+  <ng-template #loadReviseWindow>
+    <form (ngSubmit)="updateNote()" #noteForm="ngForm" class="example-form">
+      <mat-form-field [style.width.%]="100">
+        <input matInput [(ngModel)]="data.subject" name="subject" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline" [style.width.%]="100" >
+        <mat-label>Leave a comment</mat-label>
+        <textarea [style.height.vw]="12" matInput [(ngModel)]="data.description" name="description" required></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [style.float]="'right'" [style.margin-bottom.vw]="1" [disabled]="!noteForm.form.valid">Revise</button>
+    </form>
+  </ng-template>
 </ng-template>

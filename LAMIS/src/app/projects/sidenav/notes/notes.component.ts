@@ -11,6 +11,7 @@ import { MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 export class NotesComponent implements OnInit {
   private temp_note = new Note('', '');
   private receiveData: boolean;
+  private reviseNote: boolean = false;
 
   constructor(@Inject(MAT_BOTTOM_SHEET_DATA) private data: Note, private _bottomSheetRef: MatBottomSheetRef<NotesComponent>, private noteService: NoteService) {}
 
@@ -32,16 +33,27 @@ export class NotesComponent implements OnInit {
   // Add a new note to the db
   saveNote() {
     this._bottomSheetRef.dismiss();
-    event.preventDefault();
     this.temp_note.mode = "add";
-    this.noteService.updateNotes(this.temp_note).subscribe(
-      () => this.noteService.getNotes()
-    );
+    this.noteService.updateNotes(this.temp_note);
   }
 
-  // Update a note content and push to the db
-  updateNote() {
+  onClickRevise() {
+    this.reviseNote = true;
+  }
 
+  // Update the note content and push to the db
+  updateNote() {
+    this._bottomSheetRef.dismiss();
+    this.reviseNote = false;
+    this.data.mode = "revise";
+    this.noteService.updateNotes(this.data);
+  }
+
+  // Delete the note from the db
+  deleteNote() {
+    this._bottomSheetRef.dismiss();
+    this.data.mode = "delete";
+    this.noteService.updateNotes(this.data);
   }
 }
 
